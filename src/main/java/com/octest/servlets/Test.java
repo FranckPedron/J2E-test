@@ -1,5 +1,7 @@
 package com.octest.servlets;
 
+import com.octest.bdd.Noms;
+import com.octest.beans.Utilisateur;
 import com.octest.beans.Auteur;
 import com.octest.forms.ConnectionForm;
 import jakarta.servlet.*;
@@ -20,6 +22,9 @@ public class Test extends HttpServlet {
                 }
             }
         }
+        Noms tableNoms = new Noms();
+        request.setAttribute("utilisateurs", tableNoms.recupererUtilisateurs());
+
         this.getServletContext().getRequestDispatcher("/WEB-INF/bonjour.jsp").forward(request, response);
     }
 
@@ -28,12 +33,14 @@ public class Test extends HttpServlet {
     String nom = request.getParameter("nom");
     String prenom = request.getParameter("prenom");
 
-    response.addCookie(new Cookie("prenom", prenom));
+    Utilisateur utilisateur = new Utilisateur();
+    utilisateur.setNom(nom);
+    utilisateur.setPrenom(prenom);
 
-    HttpSession session = request.getSession();
-    session.setAttribute("nom", nom);
-    session.setAttribute("prenom", prenom);
+    Noms tableNoms = new Noms();
+    tableNoms.ajouterUtilisateur(utilisateur);
 
+    request.setAttribute("utilisateurs", tableNoms.recupererUtilisateurs());
 
     this.getServletContext().getRequestDispatcher("/WEB-INF/bonjour.jsp").forward(request, response);
     }

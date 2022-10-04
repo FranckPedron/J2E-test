@@ -5,6 +5,7 @@
     <title>Bonjour</title>
 </head>
 <body>
+<%@ include file="menu.jsp" %>
     <c:out value="${prenom}" />
     <form method="post" action="bonjour">
         <p>
@@ -19,5 +20,10 @@
         <input type="submit"/>
     </form>
 
+    <ul>
+        <c:forEach var="utilisateur" items="${utilisateurs}">
+            <li><c:out value="${utilisateur.prenom} ${utilisateur.nom}" /></li>
+        </c:forEach>
+    </ul>
 </body>
 </html>
